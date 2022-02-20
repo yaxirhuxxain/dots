@@ -1,0 +1,820 @@
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; global settings
+;###########################################################################
+;###########################################################################
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; colors Defination
+;###########################################################################
+;###########################################################################
+
+[colors]
+colorBack = #282c34
+colorBackAlt = #1c1f24
+colorFore = #D8DEE9
+colorForeAlt = #707880
+
+white = #ffffff
+black = #000000
+
+color01 = #ffb300
+color02 = #bd2c40
+color03 = #98be65
+color04 = #27ae60
+color05 = #51afef
+color06 = #b2dfdb
+color07 = #d7ccc8
+color08 = #9fa8da
+color09 = #48c9b0 
+color10 = #da8548
+color11 = #4db5bd
+color12 = #ecbe7b
+color13 = #ff6c6b
+color14 = #a9a1e1
+color15 = #46d9ff
+color16 = #dfdfdf
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; My Custom Bar Defination & Settings
+;###########################################################################
+;###########################################################################
+[bar/mybar]
+font-0 = mononoki Nerd Font Mono:size=13;2
+font-1 = mononoki Nerd Font Mono:size=16;3
+font-2 = mononoki Nerd Font Mono:size=18;2
+font-3 = mononoki Nerd Font Mono:size=22;4
+font-4 = mononoki Nerd Font Mono:size=26;5
+font-5 = mononoki Nerd Font Mono:size=28;5
+
+
+; line-size = 1
+
+; border-bottom-size = 4
+; border-color = ${colors.colorBack}
+
+; Dimension defined as pixel value (e.g. 35) or percentage (e.g. 50%),
+; the percentage can optionally be extended with a pixel offset like so:
+; 50%:-10, this will result in a width or height of 50% minus 10 pixels
+; width =
+height = 32px
+
+
+; Background ARGB color (e.g. #f00, #ff992a, #ddff1023)
+background = ${colors.colorBack}
+
+; Foreground ARGB color (e.g. #f00, #ff992a, #ddff1023)
+foreground = ${colors.colorFore}
+
+; Number of spaces to add at the beginning/end of the bar
+; Individual side values can be defined using:
+;   padding-{left,right}
+; padding = 0
+; padding-left = 1px
+
+
+; Offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+; the percentage can optionally be extended with a pixel offset like so:
+; 50%:-10, this will result in an offset in the x or y direction 
+; of 50% minus 10 pixels
+offset-x = 0
+offset-y = 10px
+
+
+; Position of the system tray window
+; If empty or undefined, tray support will be disabled
+; NOTE: A center aligned tray will cover center aligned modules
+;
+; Available positions:
+;   left
+;   center
+;   right
+;   none
+tray-position = right
+
+; Background color for the tray container 
+; ARGB color (e.g. #f00, #ff992a, #ddff1023)
+; By default the tray container will use the bar
+; background color.
+tray-background = ${colors.colorBackAlt}
+
+; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+tray-offset-x = 0
+tray-offset-y = -10
+
+
+; Scale factor for tray clients
+tray-scale = 1.0
+
+module-margin-left = 1.5pt 
+; separator = 
+; separator-padding = 1px
+
+
+; Prefer fixed center position for the `modules-center` block. 
+; The center block will stay in the middle of the bar whenever
+; possible. It can still be pushed around if other blocks need
+; more space.
+; When false, the center block is centered in the space between 
+; the left and right block.
+fixed-center = true
+
+# bar modules
+modules-left = logo i3 title
+modules-center = date
+modules-right =  networkspeed nvidia_info cpu memory filesystem pulseaudio backlight battery space
+
+
+# Modules list
+; space logo i3 title date networkspeed nvidia_info cpu memory filesystem pulseaudio backlight battery xkeyboard  
+
+
+;###########################################################################
+;###########################################################################
+; Nvidia Modules
+;###########################################################################
+;###########################################################################
+[module/nvidia_info]
+type = custom/script
+tail = true
+padding=0
+exec-if = nvidia-smi
+exec = nvidia-smi --loop=1 --query-gpu=temperature.gpu,utilization.gpu,utilization.memory --format=csv,noheader,nounits | sed -ur 's|([[:digit:]]+)[^[:digit:]]*([[:digit:]]+)[^[:digit:]]*([[:digit:]]+)| %{F#a9dfbf}%{T1} %{T-}\2 \1°%{F-}|g'
+; exec = nvidia-smi --loop=1 --query-gpu=temperature.gpu,utilization.gpu,utilization.memory --format=csv,noheader,nounits | sed -ur 's|([[:digit:]]+)[^[:digit:]]*([[:digit:]]+)[^[:digit:]]*([[:digit:]]+)| %{F#a9dfbf}%{T1} %{T-}\2 \3 \1°%{F-}|g'
+
+
+;###########################################################################
+;###########################################################################
+; Space Modules
+;###########################################################################
+;###########################################################################
+[module/space]
+type = custom/text
+content = " "
+
+
+
+;###########################################################################
+;###########################################################################
+; logo Modules
+;###########################################################################
+;###########################################################################
+[module/logo]
+type = custom/text
+content = %{T6}  %{T-}
+content-background = ${colors.colorBackAlt}
+content-foreground = ${colors.color01}
+content-padding = 0
+content-margin = 0
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; title Modules
+;###########################################################################
+;###########################################################################
+[module/title]
+type = internal/xwindow
+; Available tags:
+;   <label> (default)
+format = <label>
+; format-background = #f00
+format-foreground = ${colors.color03}
+; format-padding = 1
+
+; format-prefix = "|| "
+; format-prefix = " "
+; format-prefix = ""
+; format-prefix-font = 4
+
+; Available tokens:
+;   %title%
+; Default: %title%
+label = %{T4}%{T-}%title%
+label-maxlen = 45
+
+; Used instead of label when there is no window title
+; Available tokens:
+;   None
+label-empty = Empty Workspace
+label-empty-foreground = ${colors.colorForeAlt}
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; i3 workspaces Modules
+;###########################################################################
+;###########################################################################
+
+[module/i3]
+type = internal/i3
+
+; Only show workspaces defined on the same output as the bar
+
+; This will split the workspace name on ':'
+; Default: false
+; strip-wsnumbers = true
+
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
+index-sort = true
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = true
+
+wrapping-scroll = false
+
+; ws-icon-[0-9]+ = <label>;<icon>
+; NOTE: The <label> needs to match the name of the i3 workspace
+; Neither <label> nor <icon> can contain a semicolon (;)
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;פֿ
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;辶
+ws-icon-9 = 10;
+ws-icon-default = 
+
+; Available tags:
+;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
+;   <label-mode> (default)
+format = <label-state> <label-mode>
+
+; Available tokens:
+;   %mode%
+; Default: %mode%
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-background = ${colors.colorBackAlt}
+label-mode-foreground = ${colors.color13}
+
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon% %name%
+label-focused = %{T4} %icon% %{T-}
+label-focused-foreground = ${colors.color05}
+label-focused-background = ${colors.colorBack}
+label-focused-padding = 0
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon% %name%
+label-unfocused = %{T3} %icon% %{T-}
+label-unfocused-padding = 0
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon% %name%
+label-visible = %{T3} %icon% %{T-}
+label-visible-foreground = ${colors.colorFore}
+label-visible-padding = 0
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon% %name%
+label-urgent = %{T3} %icon% %{T-}
+label-urgent-foreground =  ${colors.color02}
+label-urgent-padding = 0
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; Time & Date Module
+;###########################################################################
+;###########################################################################
+
+
+[module/date]
+type = internal/date
+
+; Seconds to sleep between updates || Default: 1.0
+interval = 1.0
+
+; See "https://en.cppreference.com/w/cpp/io/manip/put_time" for details on how to format the date string
+; NOTE: if you want to use syntax tags here you need to use %%{...}
+; date = %Y-%m-%d%
+date = %a %d %b
+
+; Optional time format
+time = %H:%M
+
+; if `date-alt` or `time-alt` is defined, clicking
+; the module will toggle between formats
+date-alt = %A, %d %B %Y
+time-alt = %H:%M:%S
+
+; Available tags:
+;   <label> (default)
+format = <label>
+; format-background = #55ff3399
+; format-foreground = #fff
+
+; Available tokens:
+;   %date%
+;   %time%
+; Default: %date%
+label = %time% || %date%
+; label-font = 3
+label-foreground = ${colors.color16}
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; battery Module
+;###########################################################################
+;###########################################################################
+
+[module/battery]
+type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+; full-at = 99
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
+battery = BAT0
+adapter = ADP0
+
+; If an inotify event haven't been reported in this many
+; seconds, manually poll for new values.
+;
+; Needed as a fallback for systems that don't report events
+; on sysfs/procfs.
+;
+; Disable polling by setting the interval to 0.
+;
+; Default: 5
+poll-interval = 5
+; see "man date" for details on how to format the time string
+; NOTE: if you want to use syntax tags here you need to use %%{...}
+; Default: %H:%M:%S
+time-format = %H:%M
+
+
+; Available tags:
+;   <label-full> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+format-full = <label-full> 
+format-full-foreground = ${colors.color04} 
+
+; Available tags:
+;   <label-charging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+;   <animation-charging>
+format-charging = <animation-charging> <label-charging>
+format-charging-foreground = ${colors.color04} 
+
+; Available tags:
+;   <label-discharging> (default)
+;   <bar-capacity>
+;   <ramp-capacity>
+;   <animation-discharging>
+format-discharging = <ramp-capacity> <label-discharging>
+
+
+; Only applies if <ramp-capacity> is used
+; we are using color formating and will close it in label-discharging and label-charging
+ramp-capacity-0 = %{F#b03a2e} 
+ramp-capacity-1 = %{F#f39c12}
+ramp-capacity-2 = %{F#a9dfbf} 
+ramp-capacity-3 = %{F#7dcea0}
+ramp-capacity-4 = %{F#27ae60}
+
+; Available tokens:
+;   %percentage% (default) - is set to 100 if full-at is reached
+;   %percentage_raw%
+;   %time%
+;   %consumption% (shows current charge rate in watts)
+; we are closing color formating (%{F-}) here that we start in ramp-capacity (%{F#b03a2e})
+label-charging = %percentage%
+label-discharging = %percentage%%{F-}
+
+; Available tokens:
+;   %percentage% (default) - is set to 100 if full-at is reached
+;   %percentage_raw%
+label-full = %percentage%
+
+
+; Only applies if <animation-charging> is used
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+; Framerate in milliseconds
+animation-charging-framerate = 1200
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; keyboard Module
+;###########################################################################
+;###########################################################################
+[module/xkeyboard]
+type = internal/xkeyboard
+
+; List of indicators to ignore
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+blacklist-2 = caps lock
+
+format = <label-layout> <label-indicator>
+format-spacing = 1
+format-prefix = %{T3} %{T-}
+format-foreground = ${colors.color12}
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+;   %icon%
+;   %variant% (unreleased)
+; Default: %layout%
+label-layout = %layout%
+
+
+; Available tokens:
+;   %name%
+; Default: %name%
+; @deprecated, use label-indicator-on
+label-indicator = %name%
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; backlight Module
+;###########################################################################
+;###########################################################################
+[module/backlight]
+type = internal/backlight
+
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = amdgpu_bl0
+
+; (unreleased)
+; Use the `/sys/class/backlight/actual-brightness` file
+; rather than the regular `brightness` file.
+; Defaults to true unless the specified card is an amdgpu backlight.
+use-actual-brightness = true
+
+; Enable changing the backlight with the scroll wheel
+; NOTE: This may require additional configuration on some systems. Polybar will
+; write to `/sys/class/backlight/${self.card}/brightness` which requires polybar
+; to have write access to that file.
+; DO NOT RUN POLYBAR AS ROOT. 
+; The recommended way is to add the user to the
+; `video` group and give that group write-privileges for the `brightness` file.
+; See the ArchWiki for more information:
+; https://wiki.archlinux.org/index.php/Backlight#ACPI
+; Default: false
+enable-scroll = true
+
+; Available tags:
+;   <label> (default)
+;   <ramp>
+;   <bar>
+format = <ramp><label>
+format-foreground = ${colors.color06}
+
+; Available tokens:
+;   %percentage% (default)
+label = %percentage%
+
+; Only applies if <ramp> is used
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-font=4
+
+; Only applies if <bar> is used
+bar-width = 10
+bar-indicator = |
+bar-fill = ─
+bar-empty = ─
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; audio Module
+;###########################################################################
+;###########################################################################
+[module/pulseaudio]
+type = internal/pulseaudio
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = true
+
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+
+;Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume><label-volume>
+format-volume-foreground = ${colors.color07}
+
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-muted = <label-muted>
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-volume = %percentage%
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-muted = 婢
+label-muted-foreground = ${colors.colorForeAlt}
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 墳
+ramp-volume-font=4
+
+; Right and Middle click
+click-right = pavucontrol
+; click-middle = 
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; File System Module
+;###########################################################################
+;###########################################################################
+
+[module/filesystem]
+type = internal/fs
+
+; Mountpoints to display
+mount-0 = /
+
+; Seconds to sleep between updates
+; Default: 30
+interval = 10
+
+; Display fixed precision values
+; Default: false
+fixed-values = true
+
+; Available tags:
+;   <label-mounted> (default)
+;   <bar-free>
+;   <bar-used>
+;   <ramp-capacity>
+format-mounted = <label-mounted>
+format-mounted-prefix = 
+format-mounted-prefix-font=3
+format-mounted-foreground = ${colors.color08}
+
+; Available tags:
+;   <label-unmounted> (default)
+format-unmounted = <label-unmounted>
+
+; Available tokens:
+;   %mountpoint%
+;   %type%
+;   %fsname%
+;   %percentage_free%
+;   %percentage_used%
+;   %total%
+;   %free%
+;   %used%
+; Default: %mountpoint% %percentage_free%%
+label-mounted = %percentage_used%
+
+; Available tokens:
+;   %mountpoint%
+; Default: %mountpoint% is not mounted
+label-unmounted = %mountpoint%: not mounted
+label-unmounted-foreground = ${colors.colorForeAlt}
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; CPU Module
+;###########################################################################
+;###########################################################################
+[module/cpu]
+type = internal/cpu
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+
+; Available tags:
+;   <label> (default)
+;   <bar-load>
+;   <ramp-load>
+;   <ramp-coreload>
+format = <label> 
+format-foreground =  ${colors.color09}   
+format-prefix = 
+format-prefix-font=4
+format-padding = 0
+
+; Available tokens:
+;   %percentage% (default) - total cpu load averaged over all cores
+;   %percentage-sum% - Cumulative load on all cores
+;   %percentage-cores% - load percentage for each core
+;   %percentage-core[1-9]% - load percentage for specific core
+label = %percentage%
+
+
+
+
+
+
+;###########################################################################
+;###########################################################################
+; Memory Module
+;###########################################################################
+;###########################################################################
+[module/memory]
+type = internal/memory
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+
+;Additional formatting
+
+; Available tags:
+;   <label> (default)
+;   <bar-used>
+;   <bar-free>
+;   <ramp-used>
+;   <ramp-free>
+;   <bar-swap-used>
+;   <bar-swap-free>
+;   <ramp-swap-used>
+;   <ramp-swap-free>
+format = <label> 
+format-foreground = ${colors.color10}
+format-prefix = "" 
+format-prefix-font=4
+
+; Available tokens:
+;   %percentage_used% (default)
+;   %percentage_free%
+;   %gb_used%
+;   %gb_free%
+;   %gb_total%
+;   %mb_used%
+;   %mb_free%
+;   %mb_total%
+;   %percentage_swap_used%
+;   %percentage_swap_free%
+;   %mb_swap_total%
+;   %mb_swap_free%
+;   %mb_swap_used%
+;   %gb_swap_total%
+;   %gb_swap_free%
+;   %gb_swap_used%
+
+label = %percentage_used%
+click-right=htop
+
+
+
+
+
+; network Module
+
+;###########################################################################
+[module/networkspeed]
+;###########################################################################
+;###########################################################################
+;###########################################################################
+type = internal/network
+
+; use 'ip link' to find out the interface
+interface = wlp4s0
+
+; All labels support the following tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+
+format-connected = <label-connected>
+format-connected-font=0
+
+# Download & upload speed
+; label-connected =  %{F#00897b}%downspeed:7%%{F-} %{F#1976d2}%upspeed:7%%{F-}
+
+# Only download speed
+label-connected =  %{F#00897b}%downspeed:7%%{F-}
+
+
+
+; Default: (none)
+label-disconnected = 睊 not connected
+label-disconnected-foreground = ${colors.colorForeAlt}
+
+
+
+

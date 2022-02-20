@@ -1,0 +1,87 @@
+/*
+ * ROFI color theme
+ *
+ * Based on Something Found in the Internet
+ *
+ * User: Contributors
+ * Copyright: *!
+ */
+
+configuration {
+  font: "DejaVu Sans Mono 13";
+  //icon-theme: 					"Papirus";
+
+  drun {
+    display-name: "ﰌ";
+    font-size: 20px;
+  }
+
+  run {
+    display-name: "ﰌ";
+    font-size: 20px;
+  }
+
+  window {
+    display-name: "类";
+    font-size: 20px;
+    
+  }
+
+  timeout {
+    delay: 10;
+    action: "kb-cancel";
+  }
+}
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  bg: #2E3440;
+  bg-alt: #3B4252;
+  fg: #D8DEE9;
+  fg-alt:  #5d6d7e ;
+
+  background-color: @bg;
+  text-color: @fg;
+}
+
+window {
+  transparency: "real";
+  border: 2px;
+  border-color: #5d6d7e ;
+  border-radius: 0px;
+  padding: 6px;
+}
+
+mainbox {
+  children: [listview];
+}
+
+
+listview {
+    spacing:                        1%;
+    cycle:                          false;
+    dynamic:                        true;
+    layout:                         horizontal;
+
+}
+
+element {
+  children: [element-icon];
+
+}
+
+element-icon {
+  size: 80px;
+  padding: 10px;
+}
+
+
+element-icon selected {
+  background-color:   @fg-alt;
+}
+
+
